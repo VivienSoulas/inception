@@ -43,3 +43,22 @@ docker volume inspect <volume_to_inspect>
 
 - check process (while running)
 docker exec -it <container_name> bash
+
+
+
+
+.env
+MYSQL_DATABASE=wordpress
+MYSQL_USER=wpuser
+MYSQL_PASSWORD=changeme
+MYSQL_ROOT_PASSWORD=ChangeMe
+
+DOMAIN_NAME=vsoulas.42.fr
+
+WP_ADMIN=yolo
+WP_ADMIN_PASSWORD=yolopass
+WP_ADMIN_EMAIL=admin@vsoulas.42.fr
+
+WP_USER=vsoulas
+WP_USER_PASSWORD=mysuperpassword
+WP_USER_EMAIL=vsoulas@vsoulas.42.fr

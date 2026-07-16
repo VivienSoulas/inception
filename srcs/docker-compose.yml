@@ -10,14 +10,12 @@ services:
           - .env
 
       volumes:
-          - database:/var/lib/mysql
+          - mariadb_volume:/var/lib/mysql
 
       networks:
           - inception
 
       restart: always
-
-
 
   wordpress:
       build:
@@ -29,7 +27,7 @@ services:
           - .env
 
       volumes:
-          - wordpress:/var/www/html
+          - wordpress_volume:/var/www/html
 
       networks:
           - inception
@@ -41,8 +39,19 @@ services:
 
 
 volumes:
-  database:
-  wordpress:
+  mariadb_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/${LOGIN}/data/mariadb
+      o: bind
+
+  wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/${LOGIN}/data/wordpress
+      o: bind
 
 networks:
   inception:

@@ -1,69 +1,79 @@
-NAME = inception
+NAME		= inception
 
-COMPOSE = docker compose -f srcs/docker-compose.yml
+LOGIN 		:= $(shell whoami)
+DC			= docker compose -f srcs/docker-compose.yml
+DATA_PATH	= /home/$(LOGIN)/data
 
 all: up
+
+data:
+	mkdir -p $(DATA_PATH)/mariadb
+	mkdir -p $(DATA_PATH)/wordpress
+
 
 # build image(s)
 # ----------------------------------------------
 build:
-	$(COMPOSE) build
+	$(DC) build
 
 rebuild:
-	$(COMPOSE) build --no-cache
+	$(DC) build --no-cache
 
 mariadb:
-	$(COMPOSE) build mariadb
+	$(DC) build mariadb
 
 wordpress:
-	$(COMPOSE) build wordpress
+	$(DC) build wordpress
 
 nginx:
-	$(COMPOSE) build nginx
+	$(DC) build nginx
 # ----------------------------------------------
 
 
 # run container(s)
 # ----------------------------------------------
-up:
-	$(COMPOSE) up
+up: data
+	$(DC) up
 
 # run detached mode
-upd:
-	$(COMPOSE) up -d
+upd: data
+	$(DC) up -d
 # ----------------------------------------------
 
 
 stop:
-	$(COMPOSE) stop
+	$(DC) stop
 
 start:
-	$(COMPOSE) start
+	$(DC) start
 
 down:
-	$(COMPOSE) down
+	$(DC) down
 
 clean:
-	$(COMPOSE) down -v
+	$(DC) down -v
 
 fclean:
-	$(COMPOSE) down -v --rmi all
+	$(DC) down -v --rmi all
+	sudo rm -rf $(DATA_PATH)
 
-re: fclean rebuild up
+re: fclean rebuild
+
+
 
 # logs
 # ----------------------------------------------
 logs:
-	$(COMPOSE) logs -f
+	$(DC) logs -f
 
 logs-mariadb:
-	$(COMPOSE) logs -f mariadb
+	$(DC) logs -f mariadb
 
 logs-wordpress:
-	$(COMPOSE) logs -f wordpress
+	$(DC) logs -f wordpress
 
 logs-nginx:
-	$(COMPOSE) logs -f nginx
+	$(DC) logs -f nginx
 
 
 # container shells
@@ -94,10 +104,10 @@ networks:
 	docker network ls
 
 config:
-	$(COMPOSE) config
+	$(DC) config
 
 
-.PHONY: all build rebuild mariadb wordpress nginx \
+.PHONY: all data build rebuild mariadb wordpress nginx \
 	up upd stop start down clean fclean re \
 	logs logs-mariadb logs-wordpress logs-nginx \
 	bash-mariadb bash-wordpress bash-nginx \
