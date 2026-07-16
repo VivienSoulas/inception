@@ -22,7 +22,8 @@ docker compose down
 - removes all containers, all volumes and all networks; (keeps images)
 docker compose down -v
 
-
+- recompose without cache
+docker compose build --no-cache <container>
 
 - list images
 docker images

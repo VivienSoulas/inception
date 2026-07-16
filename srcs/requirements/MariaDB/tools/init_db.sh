@@ -3,8 +3,10 @@
 # if anything fails, stop the script
 set -e
 
+echo "Starting MariaDB script..."
+
 if [ ! -d "/var/lib/mysql/mysql" ]; then
-	echo "Initializing database"
+	echo "Installing database..."
 
 	mariadb-install-db \
 	--user=mysql \
@@ -20,12 +22,17 @@ chown -R mysql:mysql /var/lib/mysql
 # first start of MariaDB
 if [ ! -f "/var/lib/mysql/.initialized" ]; then
 
-# starts mariadb in the background (with the &)
+echo "Initializing MariaDB..."
+
+# starts MariaDB in the background (with the &)
 	mysqld_safe --datadir=/var/lib/mysql &
 
 	until mysqladmin ping --silent --socket=/var/run/mysqld/mysqld.sock; do
+		echo "Waiting for MariaDB to be ready..."
 		sleep 1
 	done
+
+	echo "MariaDB is ready ..."
 
 	mysql -uroot << EOF
 ALTER USER 'root'@'localhost'
@@ -47,7 +54,11 @@ EOF
 # created .initialized for next run
 	touch /var/lib/mysql/.initialized
 
+	echo "MariaDB initialization complete ..."
+
 fi
+
+echo "Starting MariaDB..."
 
 # start MariaDB
 exec mysqld --user=mysql --datadir=/var/lib/mysql

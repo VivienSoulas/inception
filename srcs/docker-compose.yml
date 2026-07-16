@@ -1,4 +1,5 @@
 services:
+
   mariadb:
       build:
           context: requirements/MariaDB
@@ -15,12 +16,33 @@ services:
           - inception
 
       restart: always
-  # wordpress:
-  #   build:
+
+
+
+  wordpress:
+      build:
+          context: requirements/WordPress
+
+      container_name: wordpress
+
+      env_file:
+          - .env
+
+      volumes:
+          - wordpress:/var/www/html
+
+      networks:
+          - inception
+          
+      depends_on:
+          - mariadb
+
+      restart: always
 
 
 volumes:
   database:
+  wordpress:
 
 networks:
   inception:
