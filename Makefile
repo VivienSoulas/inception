@@ -60,7 +60,6 @@ fclean:
 re: fclean rebuild
 
 
-
 # logs
 # ----------------------------------------------
 logs:
@@ -94,6 +93,9 @@ bash-nginx:
 ps:
 	docker ps
 
+psa:
+	docker ps -a
+
 images:
 	docker images
 
@@ -111,4 +113,4 @@ config:
 	up upd stop start down clean fclean re \
 	logs logs-mariadb logs-wordpress logs-nginx \
 	bash-mariadb bash-wordpress bash-nginx \
-	ps images volumes networks config
+	ps psa images volumes networks config
