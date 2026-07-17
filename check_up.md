@@ -62,3 +62,11 @@ WP_ADMIN_EMAIL=admin@vsoulas.42.fr
 WP_USER=vsoulas
 WP_USER_PASSWORD=mysuperpassword
 WP_USER_EMAIL=vsoulas@vsoulas.42.fr
+
+
+
+check for port 443 -> docker ps
+connect to database -> make bash-mariadb -> mysql -u root (or mysql -u root -p) or mysql -u wpuser -p
+show databas -> SHOW DATABASES; -> USE wordpress; -> SHOW TABLES;
+
+check users -> SELECT user_login, user_email FROM wp_users;
