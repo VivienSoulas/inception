@@ -15,7 +15,6 @@ fi
 
 # Fix permissions before MariaDB starts
 mkdir -p /var/run/mysqld
-
 chown mysql:mysql /var/run/mysqld
 chown -R mysql:mysql /var/lib/mysql
 
@@ -32,7 +31,7 @@ echo "Initializing MariaDB..."
 		sleep 1
 	done
 
-	echo "MariaDB is ready ..."
+	echo "MariaDB is ready..."
 
 	mysql -uroot << EOF
 ALTER USER 'root'@'localhost'
@@ -54,7 +53,7 @@ EOF
 # created .initialized for next run
 	touch /var/lib/mysql/.initialized
 
-	echo "MariaDB initialization complete ..."
+	echo "MariaDB initialization complete..."
 
 fi
 
