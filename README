@@ -1,0 +1,80 @@
+*This project has been created as part of the 42 curriculum by vsoulas.*
+
+## Description:
+Inception is an introduction to system administration using Docker. The goal is to build a small web infrastructure composed of multiple isolated services communicating through a Docker network. Each service runs in its own container built from a custom Dockerfile without relying on pre-built images.
+
+The infrastructure was designed to mimic a simplified production web stack. Each service has a single responsibility, communicates through Docker networking, stores persistent data in dedicated volumes, and can be rebuilt independently. This separation improves maintainability, reproducibility, and reliability while following Docker best practices and the constraints imposed by the Inception project.
+
+
+## Instructions
+Before running the projects, make sure you have the following tools installed:
+- Docker
+- Docker compose
+- Make
+The project uses environment variables stored in a `.env` file. Before running you need to fill in the credentials and domain name as shown in .env.example.
+
+### Building && launching:
+Build the Docker images:
+make build
+
+Start the containers:
+make up (or make upd for detached mode)
+
+The following services will be started:
+NGINX
+WordPress
+MariaDB
+
+Add the domain name to your hosts file:
+127.0.0.1 login.42.fr
+
+The website is available through HTTPS:
+https://login.42.fr
+
+### Managing the project:
+View running containers:
+make ps
+
+View logs:
+make logs
+or view logs of container:
+make logs-<container_name>
+
+Open shell inside container:
+make bash-<container_name>
+
+Stop containers:
+make stop
+
+Restart containers:
+make start
+
+Stop and remove containers:
+make down
+
+### Cleaning environement:
+Remove containers and volumes
+make clean
+
+Remove containers, volumes, images and stored datas:
+make fclean
+
+
+
+
+
+
+README.md
+├── First line (required)
+├── Description
+├── Project Architecture
+├── Design Choices
+├── Instructions
+├── Usage
+├── Docker Concepts
+│   ├── VM vs Docker
+│   ├── Secrets vs Environment Variables
+│   ├── Docker Network vs Host Network
+│   └── Volumes vs Bind Mounts
+├── Resources
+└── AI Usage
