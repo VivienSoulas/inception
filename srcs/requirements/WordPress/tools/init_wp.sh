@@ -2,24 +2,24 @@
 
 set -e
 
-echo "Starting WordPress script ..."
+echo "Starting WordPress script..."
 
-# 1. Wait for MariaDB
+# Wait for MariaDB
 while ! mysqladmin ping \
     -h"mariadb" \
     -u"$MYSQL_USER" \
     -p"$MYSQL_PASSWORD" \
     --silent
 do
-	echo "Waiting for MariaDB  ..."
+	echo "Waiting for MariaDB ..."
     sleep 2
 done
 
-# 2. Check initialization
+# Check initialization
 if [ ! -f /var/www/html/wp-config.php ]
 then
 
-	echo "Starting initialisation ..."
+	echo "Starting initialization..."
 
     if [ ! -f /var/www/html/wp-load.php ]
     then
@@ -47,6 +47,7 @@ then
 		--admin_email="$WP_ADMIN_EMAIL" \
 		--allow-root
 
+	# create user
 	wp user create \
 		"${WP_USER}" \
 		"${WP_USER_EMAIL}" \
@@ -55,13 +56,11 @@ then
 		--path=/var/www/html \
 		--allow-root
 
-    # wp user create \
-
 	chown -R www-data:www-data /var/www/html
-	echo "Initialisation finished ..."
+	echo "Initialisation finished..."
 fi
 
-echo "Starting WordPress ..."
+echo "Starting WordPress..."
 
-# 3. Start main process
+# Start main process
 exec php-fpm8.2 -F
