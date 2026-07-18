@@ -1,5 +1,6 @@
 *This project has been created as part of the 42 curriculum by Vsoulas*
 
+# Inception 
 ## Description
 
 Inception is a 42 system administration project built around Docker. The goal is to create a small but complete web infrastructure made of isolated services that communicate through a dedicated Docker network.
@@ -56,7 +57,10 @@ Before running the project, install:
 Create and fill in the `.env` file with the project credentials and domain name.
 
 Add the local domain to your hosts file:
+
+```text
 127.0.0.1 <your_domain>
+```
 
 ## Usage
 
@@ -70,7 +74,10 @@ Or start it detached:
 make upd
 
 Open the website in your browser with HTTPS:
+
+```text
 https://<your_domain>
+```
 
 Useful commands:
 
@@ -114,4 +121,4 @@ Volumes store persistent data outside the container filesystem. In this project,
 
 ## AI Usage
 
-AI assistance was used to help structure and rewrite the documentation from the existing project files and setup.
+AI assistance was used to help structure and rewrite the documentation from the existing project files and setup, as well as debugging during the project creation.

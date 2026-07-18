@@ -25,7 +25,10 @@ The stack is designed to keep data after restarts and rebuilds.
 ## How To Use
 
 After the containers are running, open:
+
+```text
 https://<your_domain>
+```
 
 You should see the WordPress website served through NGINX over HTTPS.
 
