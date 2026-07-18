@@ -55,7 +55,7 @@ clean:
 
 fclean:
 	$(DC) down -v --rmi all
-	sudo rm -rf $(DATA_PATH)
+	rm -rf $(DATA_PATH)
 
 re: fclean rebuild
 
