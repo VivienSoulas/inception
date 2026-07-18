@@ -6,15 +6,15 @@ This repository implements the 42 Inception subject with a minimal Docker-based 
 
 The application is split into three services:
 
-- NGINX acts as the public entry point and TLS terminator
-- WordPress runs PHP-FPM and handles CMS logic
+- NGINX acts as the public entry point and handles HTTPS encryption and decryption
+- WordPress runs PHP-FPM and handles CMS (Content Management System) logic
 - MariaDB stores the application data
 
 The services are orchestrated with Docker Compose and connected through the `inception` network.
 
 ## File Layout
 
-- `srcs/docker-compose.yml` defines the services, network, and persistent volumes
+- `srcs/docker-compose.yml` defines the services, network, and persistent named volumes
 - `srcs/requirements/NGINX/` contains the NGINX image, configuration, and startup script
 - `srcs/requirements/WordPress/` contains the WordPress image and initialization script
 - `srcs/requirements/MariaDB/` contains the MariaDB image, configuration, and initialization script
@@ -36,12 +36,12 @@ MariaDB initializes its database directory on the first run, starts a temporary 
 
 ## Data Persistence
 
-The compose file maps persistent host directories to the service data locations:
+The compose file maps Docker named volumes to host storage locations under `/home/$LOGIN/data`:
 
 - MariaDB data is stored in `/home/$LOGIN/data/mariadb`
 - WordPress files are stored in `/home/$LOGIN/data/wordpress`
 
-The `Makefile` creates these directories automatically before `make up` or `make upd` runs.
+The volumes are still named volumes, but Docker uses those host directories as their backing storage.
 
 ## Build And Run
 
@@ -54,7 +54,7 @@ Common targets:
 - `make mariadb`, `make wordpress`, `make nginx` build a single image
 - `make down` stops the stack and removes the network and containers
 - `make clean` also removes volumes
-- `make fclean` additionally removes images and host data
+- `make fclean` additionally removes images and host data directories
 
 ## Environment Variables
 
@@ -76,7 +76,7 @@ The runtime scripts use these values to configure MariaDB, WordPress, and the ge
 
 ## Development Notes
 
-- The stack is intentionally based on Debian bookworm to keep the environment close to the evaluation setup.
+- The stack is intentionally based on Debian bookworm to keep the environment stable.
 - Each container uses a dedicated entrypoint script instead of a single shared bootstrap script.
 - NGINX is the only exposed service; MariaDB and WordPress stay inside the Docker network.
 - The TLS certificate is self-signed and generated on container startup if it does not already exist.

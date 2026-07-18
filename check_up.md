@@ -13,7 +13,7 @@ docker compose up
 - run only one specific container
 docker compose up <container>
 
-- sopt a container
+- stop a container
 docker compose stop <container>
 
 - shut down entire project (removes containers and network; keeps volumes and images)

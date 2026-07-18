@@ -11,7 +11,7 @@ This repository provides three custom containers:
 - WordPress running with PHP-FPM
 - MariaDB as the database server
 
-Each service is built from its own Dockerfile, started with Docker Compose, and connected through persistent volumes so the stack can be rebuilt without losing data.
+Each service is built from its own Dockerfile, started with Docker Compose, and connected through Docker named volumes so the stack can be rebuilt without losing data.
 
 ## Project Architecture
 
@@ -27,9 +27,9 @@ flowchart LR
         D
     end
 
-    subgraph Host Volumes
-        VM[(/home/$LOGIN/data/mariadb)]
-        VW[(/home/$LOGIN/data/wordpress)]
+    subgraph Host Storage
+        VM[/home/$LOGIN/data/mariadb/]
+        VW[/home/$LOGIN/data/wordpress/]
     end
 
     D --- VM
@@ -42,8 +42,8 @@ flowchart LR
 - Debian bookworm is used as the base image for every service to keep the environment predictable.
 - NGINX terminates HTTPS and forwards PHP requests to WordPress over the internal Docker network.
 - WordPress runs with PHP-FPM instead of a full web server so NGINX remains the only public-facing service.
-- MariaDB stores its data in a bind-mounted host directory so database files survive container recreation.
-- WordPress files are also stored in a bind-mounted volume so the CMS state remains persistent.
+- MariaDB stores its data in a Docker named volume backed by `/home/$LOGIN/data/mariadb`.
+- WordPress files are also stored in a Docker named volume backed by `/home/$LOGIN/data/wordpress`.
 - Each container has a single responsibility and its own startup script, which keeps boot logic isolated and easier to debug.
 
 ## Instructions
@@ -55,6 +55,8 @@ Before running the project, install:
 - Make
 
 Create and fill in the `.env` file with the project credentials and domain name.
+
+The first `make up` or `make upd` run creates the host directories used by the named volumes under `/home/$LOGIN/data`.
 
 Add the local domain to your hosts file:
 
@@ -107,7 +109,7 @@ The services communicate through the internal `inception` Docker network instead
 
 ### Volumes vs Bind Mounts
 
-Volumes store persistent data outside the container filesystem. In this project, bind mounts point MariaDB and WordPress data to directories under `/home/$LOGIN/data`, so the data survives rebuilds and can be inspected easily.
+Volumes store persistent data outside the container filesystem. In this project, Docker named volumes keep MariaDB and WordPress data persistent across rebuilds, while Docker stores that data under `/home/$LOGIN/data` on the host.
 
 ## Resources
 

@@ -8,7 +8,7 @@ This project starts a small web platform with three services:
 - WordPress serves the web application
 - MariaDB stores the database
 
-The stack is designed to keep data after restarts and rebuilds.
+The stack is designed to keep data after restarts and rebuilds using Docker named volumes.
 
 ## Requirements
 
@@ -49,4 +49,4 @@ You should see the WordPress website served through NGINX over HTTPS.
 
 - The first start may take a little longer because MariaDB creates the database and WordPress downloads its files.
 - If you change the `.env` file, restart the stack so the new values are applied.
-- Database and WordPress data are stored outside the containers, so your content should remain after rebuilds.
+- Database and WordPress data are stored in Docker named volumes, so your content will remain after rebuilds.
